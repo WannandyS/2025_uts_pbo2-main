@@ -34,14 +34,18 @@ public class ProductForm extends JFrame {
     private JButton saveButton;
     private JButton editButton;
     private JButton deleteButton;
+    private int nextId = 0;
 
     public ProductForm() {
         List<Product> products = new ArrayList<>();
         products.add(new Product(1, "P001", "Americano", "Coffee", 18000, 10));
         products.add(new Product(2, "P002", "Pandan Latte", "Coffee", 15000, 8));
+        products.add(new Product(3, "P003", "Aren Latte", "Coffee", 12000, 9));
+        products.add(new Product(4, "P004", "Matcha Frappucino", "Tea", 13500, 7));
+        products.add(new Product(5, "P005", "Jus Apel", "Juice", 11000, 18));
         
         setTitle("WK. Cuan | Stok Barang");
-        setSize(1280, 450);
+        setSize(1280, 250);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
@@ -80,11 +84,24 @@ public class ProductForm extends JFrame {
         drinkTable = new JTable(tableModel);
         loadProductData(products);
 
-        add(formPanel, "South");
+        add(formPanel, "South");// tambahkan tombol dibagian bawah
         JScrollPane scrollPane = new JScrollPane(drinkTable);
-        add(scrollPane);
+        add(scrollPane);//tambahkan si tabel arraynya
 
         //tempat function
+
+        //function untuk munculin datanya di bar
+        drinkTable.getSelectionModel().addListSelectionListener(e -> {
+            int selectedRow = drinkTable.getSelectedRow();
+            if (selectedRow != -1) {
+                codeField.setText(String.valueOf(tableModel.getValueAt(selectedRow, 0)));
+                nameField.setText(String.valueOf(tableModel.getValueAt(selectedRow, 1)));
+                categoryField.setSelectedItem(tableModel.getValueAt(selectedRow, 2));
+                priceField.setText(String.valueOf(tableModel.getValueAt(selectedRow, 3)));
+                stockField.setText(String.valueOf(tableModel.getValueAt(selectedRow, 4)));
+            }
+        });  
+
         //tambah
         saveButton.addActionListener(e -> {
             String name = nameField.getText();
@@ -101,9 +118,14 @@ public class ProductForm extends JFrame {
                 JOptionPane.showMessageDialog(this, "Produk berhasil ditambah!");
                 double price = Double.parseDouble(priceText);
                 int stock = Integer.parseInt(stockText);
-                Product product = new Product(1, code, name, category, price, stock);
+                Product product = new Product(nextId, code, name, category, price, stock);
                 products.add(product);
                 tableModel.addRow(new Object[]{code, name, category, price, stock});
+                codeField.setText("");
+                nameField.setText("");
+                categoryField.setSelectedItem(0);
+                priceField.setText("");
+                stockField.setText("");
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Error");
             }
@@ -141,6 +163,12 @@ public class ProductForm extends JFrame {
                 tableModel.setValueAt(category, selectedRow, 2);
                 tableModel.setValueAt(price, selectedRow, 3);
                 tableModel.setValueAt(stock, selectedRow, 4);
+
+                codeField.setText("");
+                nameField.setText("");
+                categoryField.setSelectedIndex(0);
+                priceField.setText("");
+                stockField.setText("");
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Error");
             }
@@ -153,6 +181,11 @@ public class ProductForm extends JFrame {
                 JOptionPane.showMessageDialog(this, "Produk berhasil dihapus!");
                 products.remove(selectedRow);
                 tableModel.removeRow(selectedRow);
+                codeField.setText("");
+                nameField.setText("");
+                categoryField.setSelectedIndex(0);
+                priceField.setText("");
+                stockField.setText("");
             } else {
                 JOptionPane.showMessageDialog(this, "Error");
             }

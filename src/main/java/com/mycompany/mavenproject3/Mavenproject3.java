@@ -15,8 +15,10 @@ public class Mavenproject3 extends JFrame implements Runnable {
     private int width;
     private BannerPanel bannerPanel;
     private JButton addProductButton;
+    private ProductService productService;
 
     public Mavenproject3(String text) {
+        productService = new ProductService();
         this.text = text;
         setTitle("WK. STI Chill");
         setSize(600, 150);
@@ -48,7 +50,7 @@ public class Mavenproject3 extends JFrame implements Runnable {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            g.setColor(Color.BLACK);
+            g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 18));
             g.drawString(text, x, getHeight() / 2);
         }
@@ -72,6 +74,6 @@ public class Mavenproject3 extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        new Mavenproject3("Menu yang tersedia: Americano | Pandan Latte | Aren Latte | Matcha Frappucino | Jus Apel");
+        new Mavenproject3("Menu yang tersedia: " + ProductService.class.getName());
     }
 }
