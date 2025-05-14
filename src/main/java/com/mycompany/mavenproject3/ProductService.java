@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ProductService {
     private final Map<Integer, Product> productMap = new HashMap<>();
-    private int nextId = 1;
+    private int nextId = 0;
 
     public List<Product> getAll() {
         return new ArrayList<>(productMap.values());
