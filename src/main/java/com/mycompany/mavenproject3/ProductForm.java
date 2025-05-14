@@ -34,6 +34,7 @@ public class ProductForm extends JFrame {
     private JButton saveButton;
     private JButton editButton;
     private JButton deleteButton;
+    private int nextId = 0;
 
     public ProductForm() {
         List<Product> products = new ArrayList<>();
@@ -41,7 +42,7 @@ public class ProductForm extends JFrame {
         products.add(new Product(2, "P002", "Pandan Latte", "Coffee", 15000, 8));
         
         setTitle("WK. Cuan | Stok Barang");
-        setSize(1280, 450);
+        setSize(1280, 250);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
@@ -80,9 +81,9 @@ public class ProductForm extends JFrame {
         drinkTable = new JTable(tableModel);
         loadProductData(products);
 
-        add(formPanel, "South");
+        add(formPanel, "South");// tambahkan tombol dibagian bawah
         JScrollPane scrollPane = new JScrollPane(drinkTable);
-        add(scrollPane);
+        add(scrollPane);//tambahkan si tabel arraynya
 
         //tempat function
         //tambah
@@ -101,7 +102,7 @@ public class ProductForm extends JFrame {
                 JOptionPane.showMessageDialog(this, "Produk berhasil ditambah!");
                 double price = Double.parseDouble(priceText);
                 int stock = Integer.parseInt(stockText);
-                Product product = new Product(1, code, name, category, price, stock);
+                Product product = new Product(nextId, code, name, category, price, stock);
                 products.add(product);
                 tableModel.addRow(new Object[]{code, name, category, price, stock});
             } catch (NumberFormatException ex) {
